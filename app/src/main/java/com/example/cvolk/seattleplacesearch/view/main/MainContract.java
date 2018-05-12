@@ -7,13 +7,13 @@ public interface MainContract {
 
     interface View extends BaseView {
 
-        void onCheckPermission(boolean isEnabled);
+        void onGetTestResponse();
 
     }
 
     interface Presenter extends BasePresenter<View> {
 
-        void checkPermission();
+        void getTestResponse();
 
     }
 }
