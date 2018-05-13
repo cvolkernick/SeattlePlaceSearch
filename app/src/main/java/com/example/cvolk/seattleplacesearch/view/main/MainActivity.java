@@ -34,7 +34,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
         presenter = new MainPresenter();
         presenter.attachView(this);
-
         presenter.getSearchResults();
     }
 
@@ -54,7 +53,11 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     @Override
     public void onSearchResults(FourSquareResponse response) {
-        //TODO: populate the list with response data
+
+        searchResultVenues.clear();
+        searchResultVenues.addAll(response.getResponse().getVenues());
+        resultsListAdapter.notifyDataSetChanged();
+
         Log.d(TAG, "onSearchResults: " + response.toString());
     }
 

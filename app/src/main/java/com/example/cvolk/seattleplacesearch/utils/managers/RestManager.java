@@ -29,9 +29,10 @@ public class RestManager {
     private static final String LOCATION  = "Seattle,WA";
     private static final String V = "20180512";
 
+    // TODO: remove hardcoding
     // temp hardcodes for testing
     private static final String QUERY = "coffee";
-    private static final int LIMIT = 1;
+    private static final int LIMIT = 5;
 
     private RestManager() {}
 
