@@ -14,7 +14,7 @@ public interface MainContract {
 
     interface Presenter extends BasePresenter<View> {
 
-        void getSearchResults();
+        void getSearchResults(String query);
 
     }
 }

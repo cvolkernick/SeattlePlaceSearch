@@ -18,9 +18,9 @@ public class MainPresenter implements MainContract.Presenter {
     }
 
     @Override
-    public void getSearchResults() {
+    public void getSearchResults(String query) {
         RestManager restMan = RestManager.getInstance();
 
-        view.onSearchResults(restMan.makeSearchCall());
+        view.onSearchResults(restMan.makeSearchCall(query));
     }
 }

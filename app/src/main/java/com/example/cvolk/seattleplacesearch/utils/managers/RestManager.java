@@ -28,11 +28,7 @@ public class RestManager {
     private static final String CLIENT_SECRET = "SEBZ3GPDGCIC3RXZRQSSWQY3NYYNZ5DOAPAK4XLX4J2EJWBB";
     private static final String LOCATION  = "Seattle,WA";
     private static final String V = "20180512";
-
-    // TODO: remove hardcoding
-    // temp hardcodes for testing
-    private static final String QUERY = "coffee";
-    private static final int LIMIT = 5;
+    private static final int LIMIT = 25;
 
     private RestManager() {}
 
@@ -45,8 +41,8 @@ public class RestManager {
         return instance;
     }
 
-    // TODO: replace hardcoded query
-    public FourSquareResponse makeSearchCall() {
+    // make API call to FourSquare search endpoint given the specified query
+    public FourSquareResponse makeSearchCall(String query) {
 
         Retrofit retro = new Retrofit.Builder()
                 .baseUrl(API_BASE_URL)
@@ -54,7 +50,7 @@ public class RestManager {
                 .build();
 
         ISearchFourSquare searchService = retro.create(ISearchFourSquare.class);
-        Call<FourSquareResponse> call = searchService.getSearchResponse(CLIENT_ID, CLIENT_SECRET, LOCATION, QUERY, LIMIT, V);
+        Call<FourSquareResponse> call = searchService.getSearchResponse(CLIENT_ID, CLIENT_SECRET, LOCATION, query, LIMIT, V);
 
         FourSquareResponse response = null;
         try {
@@ -68,6 +64,7 @@ public class RestManager {
         return response;
     }
 
+    // define search endpoint
     public interface ISearchFourSquare {
 
         @GET(SEARCH_ENDPOINT)
@@ -81,6 +78,7 @@ public class RestManager {
         );
     }
 
+    // define AsyncTask class to run API calls off of main thread
     class ApiTask extends AsyncTask<Call<FourSquareResponse>, Void, FourSquareResponse> {
 
         @Override

@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     List<VenuesItem> searchResultVenues = new ArrayList<>();
     private RecyclerListAdapter resultsListAdapter;
     private LinearLayoutManager layoutManager;
+    private EditText etQuery;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,11 +41,11 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
         presenter = new MainPresenter();
         presenter.attachView(this);
-        presenter.getSearchResults();
     }
 
     // bind UI objects and adapters
     private void bindViews() {
+        etQuery = findViewById(R.id.etQuery);
         rvSearchResults = findViewById(R.id.rvSearchResults);
 
         resultsListAdapter = new RecyclerListAdapter(searchResultVenues);
@@ -53,23 +55,23 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         rvSearchResults.setLayoutManager(layoutManager);
     }
 
+    // clear any existing results, add new results and update list
     @Override
     public void onSearchResults(FourSquareResponse response) {
-
         searchResultVenues.clear();
         searchResultVenues.addAll(response.getResponse().getVenues());
         resultsListAdapter.notifyDataSetChanged();
-
-        Log.d(TAG, "onSearchResults: " + response.toString());
     }
 
+    // show error(s) in toast if present
     @Override
     public void showError(String error) {
         Toast.makeText(this, error, Toast.LENGTH_LONG).show();
     }
 
+    // update favorites sharedpref and toggle image accordingly
     public void toggleFavorite(View view) {
-        // TODO
+
         SharedPrefManager prefMan = SharedPrefManager.getInstance();
         Context context = view.getContext();
         String id = view.getTag().toString();
@@ -82,6 +84,19 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         }
         else {
             favoriteButton.setImageResource(R.drawable.favorite_outline);
+        }
+    }
+
+    // submit query with entered search text; if no text present show error message in toast
+    public void submitSearchQuery(View view) {
+
+        String query = etQuery.getText().toString();
+
+        if (!query.equals("")) {
+            presenter.getSearchResults(query);
+        }
+        else {
+            Toast.makeText(this, "Enter a search query.", Toast.LENGTH_SHORT).show();
         }
     }
 }
