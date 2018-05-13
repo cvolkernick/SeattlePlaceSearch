@@ -41,9 +41,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     private void bindViews() {
         rvSearchResults = findViewById(R.id.rvSearchResults);
 
-        //TODO: retrieve list of venus from api and assign to searchResultVenues
-        // searchResultVenues = presenter.get
-
         resultsListAdapter = new RecyclerListAdapter(searchResultVenues);
         layoutManager = new LinearLayoutManager(this);
 

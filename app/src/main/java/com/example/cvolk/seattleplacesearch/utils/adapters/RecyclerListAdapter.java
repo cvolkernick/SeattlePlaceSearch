@@ -2,10 +2,14 @@ package com.example.cvolk.seattleplacesearch.utils.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,6 +19,7 @@ import com.example.cvolk.seattleplacesearch.model.CategoriesItem;
 import com.example.cvolk.seattleplacesearch.model.Icon;
 import com.example.cvolk.seattleplacesearch.model.Location;
 import com.example.cvolk.seattleplacesearch.model.VenuesItem;
+import com.example.cvolk.seattleplacesearch.utils.managers.SharedPrefManager;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -69,6 +74,19 @@ public class RecyclerListAdapter extends RecyclerView.Adapter<RecyclerListAdapte
         // format distance in miles to 2 decimal places and display
         NumberFormat formatter = new DecimalFormat("#0.00");
         holder.tvDistance.setText(formatter.format(distanceMiles) + " miles away");
+
+        // display favorite icon
+        SharedPrefManager prefMan = SharedPrefManager.getInstance();
+
+        if (prefMan.venueIsFavorite(context, venuesItem.getId())) {
+//            holder.ibFavorite.setImageResource(R.drawable.favorite_fill);
+            holder.ibFavorite.setBackgroundDrawable(ResourcesCompat.getDrawable(context.getResources(), R.drawable.favorite_fill, null));
+        }
+        else {//ResourcesCompat.getDrawable(getResources(), R.drawable.name_of_drawable, null);
+            holder.ibFavorite.setImageResource(R.drawable.favorite_outline);
+            //holder.ibFavorite.setBackgroundDrawable(ResourcesCompat.getDrawable(context.getResources(), R.drawable.favorite_outline, null));
+//            holder.ibFavorite.setBackgroundResource(R.drawable.favorite_outline); no I think it's supposed to be setImageResource. must be something else //1s
+        }
     }
 
     @Override
@@ -104,6 +122,7 @@ public class RecyclerListAdapter extends RecyclerView.Adapter<RecyclerListAdapte
         private final TextView tvCategory;
         private final TextView tvName;
         private final TextView tvDistance;
+        private final ImageButton ibFavorite;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -112,6 +131,7 @@ public class RecyclerListAdapter extends RecyclerView.Adapter<RecyclerListAdapte
             tvCategory = itemView.findViewById(R.id.tvCategory);
             tvName = itemView.findViewById(R.id.tvName);
             tvDistance = itemView.findViewById(R.id.tvDistance);
+            ibFavorite = itemView.findViewById(R.id.ibFavorite);
         }
     }
 }
