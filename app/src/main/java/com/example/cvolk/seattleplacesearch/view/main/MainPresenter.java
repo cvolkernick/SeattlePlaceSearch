@@ -1,5 +1,6 @@
 package com.example.cvolk.seattleplacesearch.view.main;
 
+import com.example.cvolk.seattleplacesearch.model.FourSquareResponse;
 import com.example.cvolk.seattleplacesearch.utils.managers.RestManager;
 
 public class MainPresenter implements MainContract.Presenter {
@@ -17,9 +18,9 @@ public class MainPresenter implements MainContract.Presenter {
     }
 
     @Override
-    public void getTestResponse() {
-        RestManager restManager = RestManager.getInstance();
+    public void getSearchResults() {
+        RestManager restMan = RestManager.getInstance();
 
-        restManager.TestSearchCall();
+        view.onSearchResults(restMan.makeSearchCall());
     }
 }
