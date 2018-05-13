@@ -18,6 +18,7 @@ import com.example.cvolk.seattleplacesearch.model.Icon;
 import com.example.cvolk.seattleplacesearch.model.Location;
 import com.example.cvolk.seattleplacesearch.model.VenuesItem;
 import com.example.cvolk.seattleplacesearch.utils.managers.SharedPrefManager;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -85,6 +86,15 @@ public class RecyclerListAdapter extends RecyclerView.Adapter<RecyclerListAdapte
 
         // store venue ID for favorites use
         holder.ibFavorite.setTag(venuesItem.getId());
+
+        // store venue coordinates for details map user
+
+        android.location.Location androidLocation = new android.location.Location("");
+        androidLocation.setLatitude(venuesItem.getLocation().getLat());
+        androidLocation.setLongitude(venuesItem.getLocation().getLng());
+
+        holder.itemView.setTag(R.string.venueLocation, androidLocation);
+        holder.itemView.setTag(R.string.venueName, venuesItem.getName());
     }
 
     @Override

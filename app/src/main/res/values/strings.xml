@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Seattle Place Search</string>
+    <string name="sample_string">TEXT TEXT TEXT TEXT TEXT</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="venueLocation">venueLocation</string>
+    <string name="venueName">venueName</string>
 </resources>

@@ -1,6 +1,8 @@
 package com.example.cvolk.seattleplacesearch.view.main;
 
 import android.content.Context;
+import android.content.Intent;
+import android.location.Location;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,6 +19,7 @@ import com.example.cvolk.seattleplacesearch.model.FourSquareResponse;
 import com.example.cvolk.seattleplacesearch.model.VenuesItem;
 import com.example.cvolk.seattleplacesearch.utils.adapters.RecyclerListAdapter;
 import com.example.cvolk.seattleplacesearch.utils.managers.SharedPrefManager;
+import com.example.cvolk.seattleplacesearch.view.details.DetailsActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -98,5 +101,13 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         else {
             Toast.makeText(this, "Enter a search query.", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void viewDetails(View view) {
+        Intent intent = new Intent(this, DetailsActivity.class);
+        intent.putExtra("venueLocation", (Location)view.getTag(R.string.venueLocation));
+        intent.putExtra("venueName", (String)view.getTag(R.string.venueName));
+
+        startActivity(intent);
     }
 }
