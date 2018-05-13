@@ -1,16 +1,21 @@
 package com.example.cvolk.seattleplacesearch.view.main;
 
+import android.content.Context;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.cvolk.seattleplacesearch.R;
 import com.example.cvolk.seattleplacesearch.model.FourSquareResponse;
 import com.example.cvolk.seattleplacesearch.model.VenuesItem;
 import com.example.cvolk.seattleplacesearch.utils.adapters.RecyclerListAdapter;
+import com.example.cvolk.seattleplacesearch.utils.managers.SharedPrefManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,5 +66,22 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     public void showError(String error) {
         Toast.makeText(this, error, Toast.LENGTH_LONG).show();
+    }
+
+    public void toggleFavorite(View view) {
+        // TODO
+        SharedPrefManager prefMan = SharedPrefManager.getInstance();
+        Context context = view.getContext();
+        String id = view.getTag().toString();
+        ImageButton favoriteButton = (ImageButton)view;
+
+        prefMan.toggleFavorite(context, id);
+
+        if (prefMan.venueIsFavorite(context, id)) {
+            favoriteButton.setImageResource(R.drawable.favorite_fill);
+        }
+        else {
+            favoriteButton.setImageResource(R.drawable.favorite_outline);
+        }
     }
 }

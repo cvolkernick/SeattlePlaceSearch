@@ -2,13 +2,11 @@ package com.example.cvolk.seattleplacesearch.utils.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -79,14 +77,14 @@ public class RecyclerListAdapter extends RecyclerView.Adapter<RecyclerListAdapte
         SharedPrefManager prefMan = SharedPrefManager.getInstance();
 
         if (prefMan.venueIsFavorite(context, venuesItem.getId())) {
-//            holder.ibFavorite.setImageResource(R.drawable.favorite_fill);
-            holder.ibFavorite.setBackgroundDrawable(ResourcesCompat.getDrawable(context.getResources(), R.drawable.favorite_fill, null));
+            holder.ibFavorite.setImageResource(R.drawable.favorite_fill);
         }
-        else {//ResourcesCompat.getDrawable(getResources(), R.drawable.name_of_drawable, null);
+        else {
             holder.ibFavorite.setImageResource(R.drawable.favorite_outline);
-            //holder.ibFavorite.setBackgroundDrawable(ResourcesCompat.getDrawable(context.getResources(), R.drawable.favorite_outline, null));
-//            holder.ibFavorite.setBackgroundResource(R.drawable.favorite_outline); no I think it's supposed to be setImageResource. must be something else //1s
         }
+
+        // store venue ID for favorites use
+        holder.ibFavorite.setTag(venuesItem.getId());
     }
 
     @Override

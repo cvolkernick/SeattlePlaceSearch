@@ -51,7 +51,7 @@
             android:layout_height="match_parent"
             android:background="@color/cardview_light_background"
             android:layout_gravity="end"
-            />
+            android:onClick="toggleFavorite" />
 
     </LinearLayout>
 
