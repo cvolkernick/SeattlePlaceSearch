@@ -1,9 +1,13 @@
 package com.example.cvolk.seattleplacesearch.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.util.ArrayList;
 import java.util.List;
 import com.google.gson.annotations.SerializedName;
 
-public class Location{
+public class Location implements Parcelable {
 
 	@SerializedName("cc")
 	private String cc;
@@ -143,4 +147,54 @@ public class Location{
 			",lat = '" + lat + '\'' + 
 			"}";
 		}
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeString(this.cc);
+		dest.writeString(this.country);
+		dest.writeString(this.address);
+		dest.writeList(this.labeledLatLngs);
+		dest.writeDouble(this.lng);
+		dest.writeStringList(this.formattedAddress);
+		dest.writeString(this.city);
+		dest.writeString(this.postalCode);
+		dest.writeString(this.state);
+		dest.writeString(this.crossStreet);
+		dest.writeDouble(this.lat);
+	}
+
+	public Location() {
+	}
+
+	protected Location(Parcel in) {
+		this.cc = in.readString();
+		this.country = in.readString();
+		this.address = in.readString();
+		this.labeledLatLngs = new ArrayList<LabeledLatLngsItem>();
+		in.readList(this.labeledLatLngs, LabeledLatLngsItem.class.getClassLoader());
+		this.lng = in.readDouble();
+		this.formattedAddress = in.createStringArrayList();
+		this.city = in.readString();
+		this.postalCode = in.readString();
+		this.state = in.readString();
+		this.crossStreet = in.readString();
+		this.lat = in.readDouble();
+	}
+
+	public static final Parcelable.Creator<Location> CREATOR = new Parcelable.Creator<Location>() {
+		@Override
+		public Location createFromParcel(Parcel source) {
+			return new Location(source);
+		}
+
+		@Override
+		public Location[] newArray(int size) {
+			return new Location[size];
+		}
+	};
 }

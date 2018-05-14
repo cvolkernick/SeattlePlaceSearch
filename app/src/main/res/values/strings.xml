@@ -4,4 +4,5 @@
     <string name="title_activity_maps">Map</string>
     <string name="venueLocation">venueLocation</string>
     <string name="venueName">venueName</string>
+    <string name="venuesItem">venuesItem</string>
 </resources>

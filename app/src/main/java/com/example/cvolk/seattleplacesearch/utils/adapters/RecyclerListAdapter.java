@@ -2,7 +2,6 @@ package com.example.cvolk.seattleplacesearch.utils.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +17,6 @@ import com.example.cvolk.seattleplacesearch.model.Icon;
 import com.example.cvolk.seattleplacesearch.model.Location;
 import com.example.cvolk.seattleplacesearch.model.VenuesItem;
 import com.example.cvolk.seattleplacesearch.utils.managers.SharedPrefManager;
-import com.google.android.gms.maps.model.LatLng;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -31,7 +29,12 @@ public class RecyclerListAdapter extends RecyclerView.Adapter<RecyclerListAdapte
 
     private final String ICON_CORE = "bg_88";
 
-    public RecyclerListAdapter(List<VenuesItem> venues) { this.venues = venues; }
+    public RecyclerListAdapter(OnClickVenueListener listener, List<VenuesItem> venues) {
+        this.venues = venues;
+        mListener = listener;
+    }
+
+    OnClickVenueListener mListener;
 
     @NonNull
     @Override
@@ -95,6 +98,8 @@ public class RecyclerListAdapter extends RecyclerView.Adapter<RecyclerListAdapte
 
         holder.itemView.setTag(R.string.venueLocation, androidLocation);
         holder.itemView.setTag(R.string.venueName, venuesItem.getName());
+
+        holder.bind(venuesItem);
     }
 
     @Override
@@ -132,14 +137,29 @@ public class RecyclerListAdapter extends RecyclerView.Adapter<RecyclerListAdapte
         private final TextView tvDistance;
         private final ImageButton ibFavorite;
 
+        private View mItemView;
+
         public ViewHolder(View itemView) {
             super(itemView);
-
+            mItemView = itemView;
             ivIcon = itemView.findViewById(R.id.ivIcon);
             tvCategory = itemView.findViewById(R.id.tvCategory);
             tvName = itemView.findViewById(R.id.tvName);
             tvDistance = itemView.findViewById(R.id.tvDistance);
             ibFavorite = itemView.findViewById(R.id.ibFavorite);
         }
+
+        public void bind(final VenuesItem venuesItem) {
+            mItemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mListener.onItemClick(venuesItem);
+                }
+            });
+        }
+    }
+
+    public interface OnClickVenueListener{
+        void onItemClick(VenuesItem venue);
     }
 }

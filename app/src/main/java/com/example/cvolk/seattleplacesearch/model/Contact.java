@@ -1,8 +1,11 @@
 package com.example.cvolk.seattleplacesearch.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
-public class Contact{
+public class Contact implements Parcelable {
 
 	@SerializedName("twitter")
 	private String twitter;
@@ -46,4 +49,37 @@ public class Contact{
 			",formattedPhone = '" + formattedPhone + '\'' + 
 			"}";
 		}
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeString(this.twitter);
+		dest.writeString(this.phone);
+		dest.writeString(this.formattedPhone);
+	}
+
+	public Contact() {
+	}
+
+	protected Contact(Parcel in) {
+		this.twitter = in.readString();
+		this.phone = in.readString();
+		this.formattedPhone = in.readString();
+	}
+
+	public static final Parcelable.Creator<Contact> CREATOR = new Parcelable.Creator<Contact>() {
+		@Override
+		public Contact createFromParcel(Parcel source) {
+			return new Contact(source);
+		}
+
+		@Override
+		public Contact[] newArray(int size) {
+			return new Contact[size];
+		}
+	};
 }

@@ -24,7 +24,7 @@ import com.example.cvolk.seattleplacesearch.view.details.DetailsActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements MainContract.View {
+public class MainActivity extends AppCompatActivity implements MainContract.View, RecyclerListAdapter.OnClickVenueListener {
 
     private static final String TAG = MainActivity.class.getSimpleName() + "_TAG";
 
@@ -46,12 +46,19 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         presenter.attachView(this);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        resultsListAdapter.notifyDataSetChanged();
+    }
+
     // bind UI objects and adapters
     private void bindViews() {
         etQuery = findViewById(R.id.etQuery);
         rvSearchResults = findViewById(R.id.rvSearchResults);
 
-        resultsListAdapter = new RecyclerListAdapter(searchResultVenues);
+        resultsListAdapter = new RecyclerListAdapter(this, searchResultVenues);
         layoutManager = new LinearLayoutManager(this);
 
         rvSearchResults.setAdapter(resultsListAdapter);
@@ -103,10 +110,13 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         }
     }
 
-    public void viewDetails(View view) {
+    @Override
+    public void onItemClick(VenuesItem venue) {
+
+        Log.d(TAG, "onItemClick: " +  venue.getName());
+
         Intent intent = new Intent(this, DetailsActivity.class);
-        intent.putExtra("venueLocation", (Location)view.getTag(R.string.venueLocation));
-        intent.putExtra("venueName", (String)view.getTag(R.string.venueName));
+        intent.putExtra("venue", venue);
 
         startActivity(intent);
     }

@@ -1,8 +1,11 @@
 package com.example.cvolk.seattleplacesearch.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
-public class LabeledLatLngsItem{
+public class LabeledLatLngsItem implements Parcelable {
 
 	@SerializedName("lng")
 	private double lng;
@@ -46,4 +49,37 @@ public class LabeledLatLngsItem{
 			",lat = '" + lat + '\'' + 
 			"}";
 		}
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeDouble(this.lng);
+		dest.writeString(this.label);
+		dest.writeDouble(this.lat);
+	}
+
+	public LabeledLatLngsItem() {
+	}
+
+	protected LabeledLatLngsItem(Parcel in) {
+		this.lng = in.readDouble();
+		this.label = in.readString();
+		this.lat = in.readDouble();
+	}
+
+	public static final Parcelable.Creator<LabeledLatLngsItem> CREATOR = new Parcelable.Creator<LabeledLatLngsItem>() {
+		@Override
+		public LabeledLatLngsItem createFromParcel(Parcel source) {
+			return new LabeledLatLngsItem(source);
+		}
+
+		@Override
+		public LabeledLatLngsItem[] newArray(int size) {
+			return new LabeledLatLngsItem[size];
+		}
+	};
 }
